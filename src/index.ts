@@ -1,18 +1,54 @@
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
-import * as logger from 'koa-logger';
+import Koa from 'koa';
+import logger from 'koa-logger';
+import bodyParser from 'koa-body';
+import helmet from 'koa-helmet';
+import Knex from 'knex';
+import { Model, ValidationError, NotFoundError } from 'objection';
+
+import router from './router';
+import knexConfig from '../knexfile';
+
+const knex = Knex(knexConfig.development);
+Model.knex(knex);
 
 const app = new Koa();
-const router = new Router();
 
+app.use(helmet());
 app.use(logger());
+app.use(
+  bodyParser({
+    multipart: true,
+    urlencoded: true,
+  }),
+);
 
-router.get('/', async (ctx) => {
-  ctx.body = 'Hello World!';
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      ctx.status = 400;
+      ctx.body = {
+        error: 'ValidationError',
+        errors: err.data,
+      };
+    } else if (err instanceof NotFoundError) {
+      ctx.status = 404;
+      ctx.body = {
+        error: 'NotFoundError',
+        message: 'Entity not found',
+      };
+    } else {
+      ctx.status = 500;
+      ctx.body = { error: 'ServerError', message: err.message };
+    }
+  }
 });
 
-app.use(router.routes());
+app.use(router());
 
-app.listen(3000);
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx);
+});
 
-console.info('Server running on port 3000');
+app.listen(4000);

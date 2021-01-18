@@ -3,10 +3,15 @@
         "module": "commonjs",
         "target": "es2017",
         "noImplicitAny": true,
-        "outDir": "./dist",
-        "sourceMap": true
+        "outDir": "dist",
+        "sourceMap": true,
+        "pretty": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "baseUrl": "."
     },
-    "include": [
-        "./src/**/*"
-    ]
+    "include": ["src"]
 }

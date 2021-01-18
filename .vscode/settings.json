@@ -4,11 +4,11 @@
   },
   
   "editor.formatOnSave": true,
-  "[javascript]": {
-    "editor.formatOnSave": false
-  },
+  // "[javascript]": {
+  //   "editor.formatOnSave": false
+  // },
   "[typescript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
 
   "search.exclude": {
