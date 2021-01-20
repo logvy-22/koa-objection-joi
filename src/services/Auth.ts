@@ -1,12 +1,16 @@
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import _pick from 'ramda/src/pick';
+
+import User from '../models/User';
 import { JWTPayload } from '../types/JWTPayload';
-import User from '../model/User';
 
 class AuthService {
-  static async register(user: User): Promise<User> {
+  static async register(user: Partial<User>): Promise<User> {
+    const newUser = _pick(['email', 'first_name', 'last_name', 'password'], user);
+
     return User.query().insert({
-      ...user,
+      ...newUser,
       role_id: 1,
     });
   }

@@ -1,5 +1,5 @@
-import * as Koa from 'koa';
-import * as jwt from 'jsonwebtoken';
+import Koa from 'koa';
+import jwt from 'jsonwebtoken';
 
 import { JWTPayload } from '../types/JWTPayload';
 
@@ -9,7 +9,7 @@ const checkJwt = async (ctx: Koa.Context, next: Koa.Next): Promise<void> => {
 
   try {
     jwtPayload = <JWTPayload>jwt.verify(token, <string>process.env.JWT_SECRET);
-    ctx.state.user = jwtPayload;
+    ctx.state.authorizedUser = jwtPayload;
   } catch (error) {
     ctx.status = 401;
     return;

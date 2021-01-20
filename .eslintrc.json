@@ -16,6 +16,10 @@
         "ignoreParameters": true
       }
     ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { "selector": "property", "format": ["camelCase", "snake_case"] }
+    ],
     "@typescript-eslint/no-unused-vars": "warn",
     "no-console":  ["warn", { "allow": ["info", "error"] }],
     "no-multi-spaces": "error",

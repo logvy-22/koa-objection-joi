@@ -1,9 +1,13 @@
-import combineRouters from 'koa-combine-routers';
-
+import Router from 'koa-router';
 import rootRouter from './root';
 import userRouter from './user';
 import authRouter from './auth';
 
-const router = combineRouters(rootRouter, userRouter, authRouter);
+const api = new Router({ prefix: '/api' });
 
-export default router;
+api.use(rootRouter.routes(), rootRouter.allowedMethods());
+
+api.use(authRouter.routes(), authRouter.allowedMethods());
+
+api.use(userRouter.routes(), userRouter.allowedMethods());
+export default api;

@@ -1,12 +1,12 @@
-import * as Koa from 'koa';
+import Koa from 'koa';
 
-import Role from '../model/Role';
-import RoleService from '../service/Role';
+import Role from '../models/Role';
+import RoleService from '../services/Role';
 import { RoleName } from '../types/RoleName';
 
 const checkRole = (roleNames: Array<RoleName>) => {
   return async (ctx: Koa.Context, next: Koa.Next): Promise<void> => {
-    const { roleId } = ctx.state.user;
+    const { roleId } = ctx.state.authorizedUser;
 
     try {
       const permittedRoles = await RoleService.getByNames(roleNames);
@@ -14,12 +14,14 @@ const checkRole = (roleNames: Array<RoleName>) => {
       if (!permittedRoles.find((role: Role) => role.id === roleId)) {
         throw new Error('Access denied');
       }
-
-      await next();
     } catch (err) {
-      ctx.status = 403;
       ctx.body = 'Forbidden';
+      ctx.status = 403;
+
+      return;
     }
+
+    await next();
   };
 };
 

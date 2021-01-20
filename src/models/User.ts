@@ -6,9 +6,9 @@ import Role from './Role';
 class User extends Model {
   id!: number;
 
-  firstName?: string;
+  first_name?: string;
 
-  lastName?: string;
+  last_name?: string;
 
   email!: number;
 
@@ -34,11 +34,15 @@ class User extends Model {
   }
 
   $beforeInsert() {
-    return this.generateHash();
+    if (this.password) {
+      this.generateHash();
+    }
   }
 
   $beforeUpdate() {
-    return this.generateHash();
+    if (this.password) {
+      this.generateHash();
+    }
   }
 
   generateHash = async () => {
