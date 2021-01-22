@@ -10,4 +10,5 @@ api.use(rootRouter.routes(), rootRouter.allowedMethods());
 api.use(authRouter.routes(), authRouter.allowedMethods());
 
 api.use(userRouter.routes(), userRouter.allowedMethods());
+
 export default api;

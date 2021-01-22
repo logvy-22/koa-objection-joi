@@ -3,8 +3,8 @@ import logger from 'koa-logger';
 import bodyParser from 'koa-body';
 import helmet from 'koa-helmet';
 
-import errorsMiddleware from './middlewares/errors';
-import router from './router';
+import errorsHandler from './middlewares/errors';
+import routes from './routes';
 
 const app = new Koa();
 
@@ -17,10 +17,10 @@ app.use(
   }),
 );
 
-app.use(errorsMiddleware);
+app.use(errorsHandler);
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(routes.routes());
+app.use(routes.allowedMethods());
 
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx);
