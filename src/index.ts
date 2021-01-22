@@ -7,4 +7,4 @@ import app from './app';
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 
-app.listen(process.env.PORT_NUMBER, () => console.info(`Listing on ${process.env.PORT_NUMBER} port`));
+app.listen(process.env.PORT || 4000, () => console.info(`Listing on ${process.env.PORT || 4000} port`));

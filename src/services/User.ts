@@ -1,12 +1,29 @@
 import _dissoc from 'ramda/src/dissoc';
 
 import User from '../models/User';
+import { DEFAULT_PAGINATION_PAYLOAD } from '../constants/pagination';
+import { PaginationRequestPayload } from '../types/PaginationRequestPayload';
+import { ResponseWithPagination } from '../types/ResponseWithPagination';
 
 class UserService {
-  static async getAll(): Promise<User[]> {
-    const users = await User.query().orderBy('email');
+  static async getAll(pagination: PaginationRequestPayload): Promise<ResponseWithPagination<User>> {
+    const page = Number(pagination?.page) || DEFAULT_PAGINATION_PAYLOAD.page;
+    const limit = Number(pagination?.per_page) || DEFAULT_PAGINATION_PAYLOAD.per_page;
+    const offsetValue = (page - 1) * limit;
 
-    return users.map((user) => _dissoc('password', user));
+    const users = await User.query().orderBy('email').limit(limit).offset(offsetValue);
+    const usersCount = await User.query().resultSize();
+    const totalPageCount = Math.ceil(usersCount / limit);
+
+    return {
+      metadata: {
+        page,
+        per_page: limit,
+        page_count: totalPageCount,
+        total_count: usersCount,
+      },
+      data: users.map((user) => _dissoc('password', user)),
+    };
   }
 
   static async getById(id: number): Promise<User> {

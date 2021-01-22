@@ -1,17 +1,16 @@
 import Koa from 'koa';
 import Router from 'koa-router';
-import _dissoc from 'ramda/src/dissoc';
-import _pick from 'ramda/src/pick';
 
 import checkJwt from '../middlewares/checkJwt';
 import checkRole from '../middlewares/checkRole';
 import checkValidation from '../middlewares/checkValidation';
 import UserService from '../services/User';
+import RoleService from '../services/Role';
 import { updateUser } from '../validation/user/updateUser';
 import { updateRole } from '../validation/user/updateRole';
+import { paginationPayload } from '../validation/paginationPayload';
 import { ValidationProperty } from '../types/ValidationProperty';
 import { RoleName } from '../types/RoleName';
-import RoleService from '../services/Role';
 
 const userRouter: Router = new Router({
   prefix: '/users',
@@ -26,10 +25,15 @@ userRouter.param('id', async (id: string, ctx: Koa.ParameterizedContext, next) =
   return next();
 });
 
-userRouter.get('/', checkRole([RoleName.admin]), async (ctx: Koa.Context) => {
-  const users = await UserService.getAll();
-  ctx.body = users;
-});
+userRouter.get(
+  '/',
+  checkRole([RoleName.admin]),
+  checkValidation({ [ValidationProperty.query]: paginationPayload }),
+  async (ctx: Koa.Context) => {
+    const response = await UserService.getAll(ctx.request.query);
+    ctx.body = response;
+  },
+);
 
 userRouter.get('/:id(\\d+)', checkRole([RoleName.admin]), async (ctx: Koa.Context) => {
   ctx.body = ctx.state.user;

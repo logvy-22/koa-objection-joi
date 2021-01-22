@@ -20,6 +20,7 @@
       "error",
       { "selector": "property", "format": ["camelCase", "snake_case"] }
     ],
+    "@typescript-eslint/keyword-spacing": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "no-console":  ["warn", { "allow": ["info", "error"] }],
     "no-multi-spaces": "error",
