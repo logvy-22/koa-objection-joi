@@ -3,13 +3,21 @@ import bcrypt from 'bcrypt';
 
 const DEFAULT_USERS = [
   {
+    id: 1,
     email: 'admin@mail.com',
     password: process.env.ADMIN_PASSWORD,
     role_id: 2,
   },
   {
+    id: 2,
     email: 'user@mail.com',
-    password: 'qwerty11',
+    password: 'user',
+    role_id: 1,
+  },
+  {
+    id: 3,
+    email: 'test@mail.com',
+    password: 'test',
     role_id: 1,
   },
 ];

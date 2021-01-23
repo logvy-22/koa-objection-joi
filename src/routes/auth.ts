@@ -11,13 +11,13 @@ const authRouter: Router = new Router();
 
 authRouter.post('/registration', checkValidation({ [ValidationProperty.body]: newUser }), async (ctx: Koa.Context) => {
   try {
-    await AuthService.register(ctx.request.body);
+    const user = await AuthService.register(ctx.request.body);
 
     ctx.status = 201;
-    ctx.body = 'User created';
+    ctx.body = user;
   } catch {
     ctx.status = 409;
-    ctx.body = 'email already in use';
+    ctx.body = { error: 'ConflictError', message: 'Email already in use' };
   }
 });
 
@@ -28,6 +28,7 @@ authRouter.post('/login', checkValidation({ [ValidationProperty.body]: userCrede
     ctx.body = token;
   } catch {
     ctx.status = 401;
+    ctx.body = { error: 'Unauthorized', message: 'User does not exist' };
   }
 });
 
