@@ -1,17 +1,18 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2017",
-        "noImplicitAny": true,
-        "outDir": "dist",
-        "sourceMap": true,
-        "pretty": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "resolveJsonModule": true,
-        "moduleResolution": "node",
-        "baseUrl": "/src"
-    },
-    "include": ["src"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "baseUrl": "/src"
+  },
+  "include": ["src"]
 }

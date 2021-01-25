@@ -10,7 +10,7 @@ type ValidationSchemaItem = [ValidationProperty, ObjectSchema<any>];
 type ValidationSchema = Partial<Record<ValidationProperty, ObjectSchema<any>>>;
 
 const checkValidation = (validationSchema: ValidationSchema) => {
-  return async (ctx: Koa.ParameterizedContext, next: Koa.Next): Promise<void> => {
+  return async (ctx: Koa.Context, next: Koa.Next): Promise<void> => {
     const requestParams: Request & { [key: string]: any } = ctx.request;
 
     const joinErrorMessages = (acc: string, [property, validator]: ValidationSchemaItem): string => {

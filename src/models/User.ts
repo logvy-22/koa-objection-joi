@@ -1,6 +1,7 @@
 import { Model } from 'objection';
 import bcrypt from 'bcrypt';
 
+import Room from './Room';
 import Role from './Role';
 
 class User extends Model {
@@ -16,33 +17,31 @@ class User extends Model {
 
   role_id!: number;
 
-  static get tableName() {
-    return 'users';
-  }
+  static tableName = 'users';
 
-  static get relationMappings() {
-    return {
-      role: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Role,
-        join: {
-          from: 'users.role_id',
-          to: 'roles.id',
-        },
+  static relationMappings = {
+    role: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Role,
+      join: {
+        from: 'users.role_id',
+        to: 'roles.id',
       },
-    };
-  }
+    },
+  };
 
-  $beforeInsert() {
+  $beforeInsert(): any {
     if (this.password) {
       return this.generateHash();
     }
+    return null;
   }
 
-  $beforeUpdate() {
+  $beforeUpdate(): any {
     if (this.password) {
       return this.generateHash();
     }
+    return null;
   }
 
   generateHash = async () => {
