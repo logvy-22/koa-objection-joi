@@ -35,13 +35,13 @@ class User extends Model {
 
   $beforeInsert() {
     if (this.password) {
-      this.generateHash();
+      return this.generateHash();
     }
   }
 
   $beforeUpdate() {
     if (this.password) {
-      this.generateHash();
+      return this.generateHash();
     }
   }
 
