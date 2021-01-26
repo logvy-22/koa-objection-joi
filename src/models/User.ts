@@ -1,3 +1,4 @@
+/* eslint consistent-return: off */
 import { Model } from 'objection';
 import bcrypt from 'bcrypt';
 
@@ -43,18 +44,16 @@ class User extends Model {
     },
   };
 
-  $beforeInsert(): any {
+  $beforeInsert(): void | Promise<void> {
     if (this.password) {
       return this.generateHash();
     }
-    return null;
   }
 
-  $beforeUpdate(): any {
+  $beforeUpdate(): void | Promise<void> {
     if (this.password) {
       return this.generateHash();
     }
-    return null;
   }
 
   generateHash = async () => {

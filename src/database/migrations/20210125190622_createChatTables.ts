@@ -21,5 +21,5 @@ export function up(knex: Knex): Promise<void> {
 }
 
 export function down(knex: Knex): Promise<void> {
-  return knex.schema.dropTable('rooms').dropTable('messages').dropTable('participants');
+  return knex.schema.dropTable('messages').dropTable('participants').dropTable('rooms');
 }
