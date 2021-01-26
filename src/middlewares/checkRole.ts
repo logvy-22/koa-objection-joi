@@ -5,7 +5,7 @@ import RoleService from '../services/Role';
 import { RoleName } from '../types/RoleName';
 
 const checkRole = (roleNames: Array<RoleName>) => {
-  return async (ctx: Koa.Context, next: Koa.Next): Promise<void> => {
+  return async (ctx: Koa.ParameterizedContext, next: Koa.Next): Promise<void> => {
     const { roleId } = ctx.state.authorizedUser;
 
     try {

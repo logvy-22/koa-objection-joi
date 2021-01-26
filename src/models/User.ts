@@ -1,7 +1,7 @@
 import { Model } from 'objection';
 import bcrypt from 'bcrypt';
 
-import Room from './Room';
+import ChatRoom from './ChatRoom';
 import Role from './Role';
 
 class User extends Model {
@@ -26,6 +26,19 @@ class User extends Model {
       join: {
         from: 'users.role_id',
         to: 'roles.id',
+      },
+    },
+    chatRoom: {
+      relation: Model.ManyToManyRelation,
+      modelClass: ChatRoom,
+      join: {
+        from: 'users.id',
+        through: {
+          // participants is the join table.
+          from: 'participants.user_id',
+          to: 'participants.room_id',
+        },
+        to: 'rooms.id',
       },
     },
   };

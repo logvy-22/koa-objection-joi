@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { JWTPayload } from '../types/JWTPayload';
 
-const checkJwt = async (ctx: Koa.Context, next: Koa.Next): Promise<void> => {
+const checkJwt = async (ctx: Koa.ParameterizedContext, next: Koa.Next): Promise<void> => {
   const token = <string>ctx.req.headers.auth;
   let jwtPayload;
 

@@ -5,9 +5,7 @@ class Role extends Model {
 
   name!: string;
 
-  static get tableName() {
-    return 'roles';
-  }
+  static tableName = 'roles';
 }
 
 export default Role;

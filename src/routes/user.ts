@@ -29,17 +29,17 @@ userRouter.get(
   '/',
   checkRole([RoleName.admin]),
   checkValidation({ [ValidationProperty.query]: paginationPayload }),
-  async (ctx: Koa.Context) => {
+  async (ctx: Koa.ParameterizedContext) => {
     const response = await UserService.getAll(ctx.request.query);
     ctx.body = response;
   },
 );
 
-userRouter.get('/:id(\\d+)', checkRole([RoleName.admin]), async (ctx: Koa.Context) => {
+userRouter.get('/:id(\\d+)', checkRole([RoleName.admin]), async (ctx: Koa.ParameterizedContext) => {
   ctx.body = ctx.state.user;
 });
 
-userRouter.delete('/:id(\\d+)', checkRole([RoleName.admin]), async (ctx: Koa.Context) => {
+userRouter.delete('/:id(\\d+)', checkRole([RoleName.admin]), async (ctx: Koa.ParameterizedContext) => {
   const { id } = ctx.params;
 
   await UserService.delete(id);
@@ -50,7 +50,7 @@ userRouter.patch(
   '/:id(\\d+)/change-role',
   checkRole([RoleName.admin]),
   checkValidation({ [ValidationProperty.body]: updateRole }),
-  async (ctx: Koa.Context) => {
+  async (ctx: Koa.ParameterizedContext) => {
     const { id } = ctx.params;
     const { role_id } = ctx.request.body;
 
@@ -64,7 +64,7 @@ userRouter.patch(
   '/:id(\\d+)',
   checkRole([RoleName.admin]),
   checkValidation({ [ValidationProperty.body]: updateUser }),
-  async (ctx: Koa.Context) => {
+  async (ctx: Koa.ParameterizedContext) => {
     const { id } = ctx.params;
     const { first_name, last_name, email, password } = ctx.request.body;
 
